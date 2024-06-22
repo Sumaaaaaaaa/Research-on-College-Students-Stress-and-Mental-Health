@@ -1,19 +1,23 @@
-import tkinter as tk
-from tkinter import filedialog
-import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import binom
 
-def open_file():
-    filepath = filedialog.askopenfilename(
-        initialdir="/CsvFiles", 
-        title="Select a CSV file", 
-        filetypes=(("CSV files", "*.csv"), ("all files", "*.*"))
-    )
-    if filepath:
-        try:
-            df = pd.read_csv(filepath)
-            print(df.head())  # or any other operation you want to perform on the DataFrame
-        except Exception as e:
-            print(f"Error reading the file: {e}")
-            
-            
-open_file()
+# 参数
+n = 9
+p = 529 / 2958
+
+# 创建 x 值范围
+x = np.arange(0, n + 1)
+
+# 计算 PMF
+pmf = binom.pmf(x, n, p)
+
+# 绘图
+plt.figure(figsize=(12, 6))
+plt.plot(x, pmf, 'bo', ms=2)
+plt.vlines(x, 0, pmf, colors='b', lw=0.5)
+plt.title('Binomial Distribution PMF (n=2958, p=529/2958)')
+plt.xlabel('Number of Successes')
+plt.ylabel('Probability')
+plt.grid(True)
+plt.show()
